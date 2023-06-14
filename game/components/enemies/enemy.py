@@ -2,7 +2,7 @@ import pygame
 import random
 
 from pygame.sprite import Sprite
-from game.utils.constants import ENEMY_1, SCREEN_HEIGHT, SCREEN_WIDTH
+from game.utils.constants import SCREEN_HEIGHT, SCREEN_WIDTH
 
 
 class Enemy(Sprite):
@@ -14,15 +14,15 @@ class Enemy(Sprite):
     SPEED_Y = 1
     MOV_X = {0: 'left', 1: 'rigth'}
 
-    def __init__(self):
-        self.image = pygame.transform.scale(ENEMY_1, (self.ENEMY_WIDTH, self.ENEMY_HEIGHT))
+    def __init__(self, image, width, height, x_pos_list, y_pos, speed_x, speed_y, movement_x, move_x_for):
+        self.image = pygame.transform.scale(image, (width, height))
         self.rect = self.image.get_rect()
-        self.rect.x = self.X_POS_LIST[random.randint(0, 10)]
-        self.rect.y = self.Y_POS
-        self.speed_x = self.SPEED_X
-        self.speed_y = self.SPEED_Y
-        self.movement_x = self.MOV_X[random.randint(0, 1)]
-        self.move_x_for = random.randint(30, 100)
+        self.rect.x = x_pos_list[random.randint(0, 10)]
+        self.rect.y = y_pos
+        self.speed_x = speed_x
+        self.speed_y = speed_y
+        self.movement_x = movement_x
+        self.move_x_for = move_x_for
         self.index = 0
 
     def update(self, ships):
