@@ -22,7 +22,7 @@ class BulletManager:
 
             if bullet.rect.colliderect(game.player.rect) and bullet.owner == 'enemy':
                 self.enemy_bullets.remove(bullet)
-                game.death_count += 1
+                game.increase_death_count()
                 game.playing = False
                 pygame.time.delay(1000)
                 break
@@ -38,5 +38,5 @@ class BulletManager:
         if bullet.owner == 'enemy' and len(self.enemy_bullets) < 1:
             self.enemy_bullets.append(bullet)
         elif bullet.owner == 'player':
-            if len(self.player_bullets) < 1:
+            if len(self.player_bullets) < 15:
                 self.player_bullets.append(bullet)
