@@ -1,5 +1,6 @@
-from game.components.enemies.enemy import Enemy
 import random
+
+from game.components.enemies.enemy import Enemy
 
 
 class EnemyManager:
@@ -17,8 +18,8 @@ class EnemyManager:
             enemy.draw(screen)
 
     def add_enemy(self):
-        enemy_type = random.randint(1, 2)
-        if enemy_type ==1:
+        enemy_type = random.randint(1,2)
+        if enemy_type == 1:
             enemy = Enemy()
         else:
             x_speed = 5
@@ -28,3 +29,6 @@ class EnemyManager:
 
         if len(self.enemies) < 1:
             self.enemies.append(enemy)
+
+    def reset(self):
+        self.enemies = []
