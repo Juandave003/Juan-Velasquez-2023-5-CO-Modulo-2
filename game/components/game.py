@@ -1,6 +1,6 @@
 import pygame
 
-from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
+from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, MUSIC_PATH
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.bullets.bullet_manager import BulletManager
@@ -29,17 +29,20 @@ class Game:
         self.death_count = Counter()
         self.highest_score = Counter()
         self.power_up_manager = PowerUpManager()
+        pygame.mixer.music.load(MUSIC_PATH)
 
     def execute(self):
         self.running = True
         while self.running:
             if not self.playing:
                 self.show_menu()
+                pygame.mixer.music.stop()
         pygame.display.quit()
         pygame.quit()
 
     def run(self):
         # Game loop: events - update - draw
+        #pygame.mixer.music.play(-1)
         self.reset()
         self.playing = True
         while self.playing:
@@ -111,6 +114,7 @@ class Game:
         self.score.reset()
         self.player.reset()
         self.power_up_manager.reset()
+        self.player.speed = 10
 
     def draw_power_up_time(self):
         if self.player.has_power_up:
@@ -122,3 +126,4 @@ class Game:
                 self.player.has_power_up = False
                 self.player.power_up_type = DEFAULT_TYPE
                 self.player.set_image()
+                self.player.speed = 10

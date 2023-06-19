@@ -6,6 +6,7 @@ TITLE = "Spaceships Game"
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
 FPS = 30
+BULLET_LIMIT = 1
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
 # Assets Constants
@@ -14,6 +15,12 @@ ICON = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship.png"))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 
 SPEED_ICON = pygame.image.load(os.path.join(IMG_DIR, "Other/speed.png"))
+
+SOUND_PATH = os.path.join(IMG_DIR, "Other/shot.wav")
+
+MUSIC_PATH = os.path.join(IMG_DIR, "Other/music.wav")
+
+BULLET_ICON = pygame.image.load(os.path.join(IMG_DIR, "Other/bala.png"))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 

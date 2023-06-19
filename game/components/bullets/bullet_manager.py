@@ -3,6 +3,8 @@ import pygame
 from game.utils.constants import SHIELD_TYPE
 
 class BulletManager:
+    BULLET_LIMIT = 1
+
     def __init__(self):
         self.bullets = []
         self.enemy_bullets = []
@@ -36,7 +38,7 @@ class BulletManager:
             bullet.draw(screen)
 
     def add_bullet(self, bullet):
-        if bullet.owner == 'player' and len(self.bullets) < 1:
+        if bullet.owner == 'player' and len(self.bullets) < self.BULLET_LIMIT:
             self.bullets.append(bullet)
         elif bullet.owner == 'enemy' and len(self.enemy_bullets) < 1:
             self.enemy_bullets.append(bullet)
@@ -44,3 +46,6 @@ class BulletManager:
     def reset(self):
         self.bullets = []
         self.enemy_bullets = []
+
+    def set_bullet_limit(self, bullet_limit):
+        self.BULLET_LIMIT = bullet_limit

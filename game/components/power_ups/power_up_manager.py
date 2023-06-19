@@ -3,7 +3,10 @@ import random
 
 from game.components.power_ups.shield import Shield
 from game.components.power_ups.speed import SpeedPowerUp
-from game.utils.constants import SPACESHIP_SHIELD
+from game.components.power_ups.multishot import MultishotPowerUp
+from game.components.bullets.bullet_manager import BulletManager
+
+from game.utils.constants import SPACESHIP_SHIELD, SPACESHIP, BULLET_LIMIT
 
 
 class PowerUpManager:
@@ -16,7 +19,13 @@ class PowerUpManager:
         self.duration = random.randint(3, 5)
 
     def generate_power_up(self):
-        power_up = Shield()
+        power_up_type = random.choice(['shield', 'speed', 'multishot'])
+        if power_up_type == 'shield':
+            power_up = Shield()
+        elif power_up_type == 'speed':
+            power_up = SpeedPowerUp()
+        else:
+            power_up = MultishotPowerUp()
         self.when_appears += random.randint(self.MIN_TIME_POWER_UP, self.MAX_TIME_POWER_UP)
         self.power_ups.append(power_up)
 
@@ -33,7 +42,13 @@ class PowerUpManager:
                 game.player.power_up_type = power_up.type
                 game.player.has_power_up = True
                 game.player.power_time_up = power_up.start_time + (self.duration * 1000)
-                game.player. set_image((65, 75), SPACESHIP_SHIELD)
+                if power_up.type == "shield":
+                    game.player.set_image((65, 75), SPACESHIP_SHIELD)
+                elif power_up.type == "speed":
+                    game.player.set_image((40, 60), SPACESHIP)
+                    game.player.speed = 25
+                elif power_up.type == "multishot":
+                    game.player.bullet_limit = 5
                 self.power_ups.remove(power_up)
 
     def draw(self, screen):
@@ -43,4 +58,4 @@ class PowerUpManager:
     def reset(self):
         self.power_ups = []
         now = pygame.time.get_ticks()
-        self.when_appears = random.randint(self.MIN_TIME_POWER_UP, self.MAX_TIME_POWER_UP)
+        self.when_appears = random.randint(now + self.MIN_TIME_POWER_UP, now + self.MAX_TIME_POWER_UP)

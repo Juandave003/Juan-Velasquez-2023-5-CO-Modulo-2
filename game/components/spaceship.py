@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
-from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, DEFAULT_TYPE
+from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, DEFAULT_TYPE, SOUND_PATH
 from game.components.bullets.bullet import Bullet
 
 
@@ -21,9 +21,10 @@ class Spaceship(Sprite):
         self.power_up_type = DEFAULT_TYPE
         self.has_power_up = False
         self.power_time_up = 0
+        self.speed = 10
+        self.bullet_limit = 1
 
     def update(self, user_input, game):
-
         if user_input[pygame.K_LEFT]:
             self.move_left()
         elif user_input[pygame.K_RIGHT]:
@@ -36,22 +37,22 @@ class Spaceship(Sprite):
             self.shoot(game)
 
     def move_left(self):
-        self.rect.x -= 10
+        self.rect.x -= self.speed
         if self.rect.left < 0:
             self.rect.x = SCREEN_WIDTH - self.SPACESHIP_WIDTH
 
     def move_right(self):
-        self.rect.x += 10
+        self.rect.x += self.speed
         if self.rect.right >= SCREEN_WIDTH - self.SPACESHIP_WIDTH:
             self.rect.x = 0
 
     def move_up(self):
         if self.rect.y > self.HALF_SCREEN_HEIGHT:
-            self.rect.y -= 10
+            self.rect.y -= self.speed
 
     def move_down(self):
         if self.rect.y < SCREEN_HEIGHT - self.SPACESHIP_HEIGHT:
-            self.rect.y += 10
+            self.rect.y += self.speed
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
@@ -59,6 +60,9 @@ class Spaceship(Sprite):
     def shoot(self, game):
         bullet = Bullet(self)
         game.bullet_manager.add_bullet(bullet)
+        game.bullet_manager.set_bullet_limit(1)
+        shot_sound = pygame.mixer.Sound(SOUND_PATH)
+        shot_sound.play()
 
     def reset(self):
         self.rect.x = self.X_POS
